@@ -1,0 +1,16 @@
+name: Verify workflows
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  verify:
+    name: test
+    runs-on: ubuntu-latest
+    env:
+      SKAFFOLD_PROFILE: "$${ github.action == 'just a test' && 'prod' || 'nonprod' }"
+    steps:
+      - name: Test
+        run: |
+          echo $SKAFFOLD_PROFILE
