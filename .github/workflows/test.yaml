@@ -2,7 +2,7 @@ name: Verify workflows
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   verify:
