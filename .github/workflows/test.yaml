@@ -9,7 +9,7 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     env:
-      SKAFFOLD_PROFILE: "$${ github.action == 'just a test' && 'prod' || 'nonprod' }"
+      SKAFFOLD_PROFILE: "${{ github.action == 'just a test' && 'prod' || 'nonprod' }}"
     steps:
       - name: Test
         run: |
