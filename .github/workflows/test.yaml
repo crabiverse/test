@@ -9,8 +9,10 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     env:
-      SKAFFOLD_PROFILE: "${{ github.action == 'just a test' && 'prod' || 'nonprod' }}"
+      PROD: "${{ 'foo' == 'foo' && 'prod' || 'nonprod' }}"
+      NONPROD: "${{ 'foo' == 'bar' && 'prod' || 'nonprod' }}"
     steps:
       - name: Test
         run: |
-          echo "+++${SKAFFOLD_PROFILE}+++"
+          echo "prod: _${PROD}_"
+          echo "nonprod: _${NONPROD}_"
