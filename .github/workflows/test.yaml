@@ -17,3 +17,4 @@ jobs:
         run: |
           echo "prod: _${PROD}_"
           echo "nonprod: _${NONPROD}_"
+          echo "commit sha: ${GITHUB_SHA}"
