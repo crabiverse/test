@@ -14,7 +14,6 @@ jobs:
       NONPROD: "${{ 'foo' == 'bar' && 'prod' || 'nonprod' }}"
     steps:
       - name: Test
-        if: 'startsWith(github.event.ref, ''refs/heads/'')'
         run: |
           echo "prod: _${PROD}_"
           echo "nonprod: _${NONPROD}_"
