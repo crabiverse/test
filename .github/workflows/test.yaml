@@ -1,20 +1,32 @@
-name: Verify workflows
+---
+name: build and publish docker image
+
 on:
   push:
-    branches:
-      - main
-  pull_request: {}
+    branches: ["master"]
+
+env:
+  REGISTRY: ghcr.io
 
 jobs:
-  verify:
-    name: test
+  docker:
     runs-on: ubuntu-latest
-    env:
-      PROD: "${{ 'foo' == 'foo' && 'prod' || 'nonprod' }}"
-      NONPROD: "${{ 'foo' == 'bar' && 'prod' || 'nonprod' }}"
     steps:
-      - name: Test
-        run: |
-          echo "prod: _${PROD}_"
-          echo "nonprod: _${NONPROD}_"
-          echo "commit sha: ${GITHUB_SHA}"
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Github container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ github.repository }}:latest
